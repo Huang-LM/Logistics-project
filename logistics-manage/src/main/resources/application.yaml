@@ -1,0 +1,25 @@
+server:
+  port: 22818
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:mysql://www.91iedu.com:3391/team1802?allowMultiQueries=true
+    url: jdbc:mysql://localhost:3306/team1802?allowMultiQueries=true
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mail:
+    host: smtp.qq.com
+    password: ohvqfppmynsvfhed
+    username: 1213125222@qq.com
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
