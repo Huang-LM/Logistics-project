@@ -199,7 +199,7 @@ export default {
       this.addRoleForm.createTime = currentdate;
     },
     // 跳转至编辑角色
-    async handleEdit(index, row) {
+    handleEdit(index, row) {
       this.roleId = row.id;
       this.defaultRoleTree = [];
       // 暂时的获取全部侧边栏
@@ -209,37 +209,24 @@ export default {
       });
 
       // 获取该角色的总菜单
-      await service.post("role/menu", { role_id: row.id }).then(res => {
-        this.roleTreeOlder = res.data;
-        // console.log(this.roleTreeOlder);
-        this.getdefaultKey(this.roleTreeOlder, this.defaultRoleTree);
+      service.post("role/menu", { role_id: row.id }).then(res => {
+        this.$nextTick(() => {
+          this.getdefaultKey(res.data);
+        });
       });
 
-      // console.log(this.defaultRoleTree);
       this.dialogFormVisible2 = true;
     },
     // 获取该角色的默认key
-    getdefaultKey(node, arr) {
+    getdefaultKey(node) {
+      let arr = [];
       for (let i in node) {
         for (let j in node[i].children) {
           arr.push(node[i].children[j].id);
         }
       }
-      // await console.log(arr);
+      this.defaultRoleTree = arr;
     },
-    // // 刷新角色权限
-    // async refresh() {
-    //   this.defaultRoleTree = [];
-    //   service.get("role/menus").then(res => {
-    //     // console.log(res.data);
-    //     this.roleTree = res.data;
-    //   });
-    //   // await service.post("role/menu", { role_id: this.rowId }).then(res => {
-    //   //   this.roleTreeOlder = res.data;
-    //   //   this.getdefaultKey(this.roleTreeOlder, this.defaultRoleTree);
-    //   // });
-    //   // this.getdefaultKey(this.roleTreeOlder, this.defaultRoleTree);
-    // },
     // 关闭对话框清空
     closeDialog() {
       // console.log("清除");
@@ -359,13 +346,16 @@ export default {
     }
   },
   watch: {
-    defaultRoleTree() {
-      // console.log(this.defaultRoleTree);
-      // if (newVal === oldVal) {
-      //   console.log(this.defaultRoleTree);
-      //   this.defaultRoleTree = oldVal;
-      // }
-    }
+    // roleTreeOlder() {
+    //   console.log(this.defaultRoleTree);
+    //   this.$nextTick(() => {
+    //     this.dialogFormVisible2 = true;
+    //   });
+    //   // if (newVal === oldVal) {
+    //   //   console.log(this.defaultRoleTree);
+    //   //   this.defaultRoleTree = oldVal;
+    //   // }
+    // }
   }
 };
 </script>
