@@ -82,7 +82,7 @@ export default {
     getState() {
       this.subName = window.sessionStorage.getItem("subName");
       if (this.subName !== "/home") this.welcomeShow = false;
-      console.log(this.subName);
+      // console.log(this.subName);
     }
   },
   watch: {

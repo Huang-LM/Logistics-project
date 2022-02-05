@@ -7,9 +7,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
 #    url: jdbc:mysql://www.91iedu.com:3391/team1802?allowMultiQueries=true
-    url: jdbc:mysql://localhost:3306/team1802?allowMultiQueries=true
+    url: jdbc:mysql://localhost:3306/team1801?serverTimezone=UTC&allowMultiQueries=true
     username: root
-    password: 12345678
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   mail:
     host: smtp.qq.com

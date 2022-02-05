@@ -147,7 +147,7 @@ export default {
       await service
         .post("/user/id", this.loginForm)
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           this.$store.commit("account/setUserID", res.data);
         })
         .catch(err => {

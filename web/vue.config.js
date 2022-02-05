@@ -4,7 +4,7 @@ module.exports = {
   devServer: {
     open: true,
     host: "localhost",
-    port: "1802",
+    port: "10000",
     proxy: {
       "/api": {
         target: "http://localhost:22818", // 要请求的地址
