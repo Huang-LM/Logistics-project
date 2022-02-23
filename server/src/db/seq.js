@@ -1,4 +1,4 @@
-const  Sequelize  = require('sequelize')
+const Sequelize = require('sequelize')
 
 const {
   MYSQL_HOST,
@@ -8,7 +8,7 @@ const {
   MYSQL_DB,
 } = require('../config/config.default')
 
-const seq = new Sequelize(MYSQL_DB, MYSQL_USER, MYSQL_PWD, {
+const sequelize = new Sequelize(MYSQL_DB, MYSQL_USER, MYSQL_PWD, {
   host: MYSQL_HOST,
   dialect: 'mysql',
 })
@@ -23,4 +23,4 @@ const seq = new Sequelize(MYSQL_DB, MYSQL_USER, MYSQL_PWD, {
 //     console.log('数据库连接失败', err)
 //   })
 
-module.exports = seq
+module.exports = sequelize

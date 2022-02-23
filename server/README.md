@@ -1,0 +1,9 @@
+- app：koa主体入口
+- config：程序默认配置
+- constant：静态资源配置
+- controller：控制层
+- db：数据库连接封装
+- middleware：中间件抽离
+- models：数据库映射
+- router：路由
+- service：服务操作层

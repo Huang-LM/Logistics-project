@@ -8,6 +8,7 @@
     "sequelize-automate": "sequelize-automate -t js -h localhost -d team1801 -u root -p 123456 -P 3306  -e mysql -o ./src/models"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.0",
     "koa": "^2.13.4",
     "koa-body": "^4.2.0",
