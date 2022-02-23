@@ -115,6 +115,8 @@ export default {
   components: { UserForm, FindPassword },
   created() {
     this.showCard();
+    service .get("/list") .then(res => { console.log(res); })
+
   },
   data() {
     return {
