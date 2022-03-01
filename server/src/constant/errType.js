@@ -1,17 +1,57 @@
 module.exports = {
   userFormateError: {
     code: '101',
-    message: '用户名或密码为空',
-    result: '',
+    data: {
+      message: "用户名或密码为空",
+    }
   },
   userAlreadyExited: {
     code: '102',
-    message: '用户已经存在',
-    result: '',
+    data: {
+      message: "用户已经存在",
+    }
   },
   userRegisterError: {
     code: '103',
-    message: '登录出错',
-    result: '',
+    data: {
+      message: "登录出错",
+    }
+  },
+  userDoesNotExist: {
+    code: '104',
+    data: {
+      message: "用户不存在",
+    }
+  },
+  userLoginError: {
+    code: '105',
+    data: {
+      message: "用户登录失败",
+    }
+  },
+  invalidPassword: {
+    code: '106',
+    data: {
+      message: "密码不匹配",
+    }
+  },
+  userNotApproved: {
+    code: '107',
+    data: {
+      message: "用户还未通过审核",
+    }
+  },
+  tokenExpiredError: {
+    code: '201',
+    data: {
+      message: "token已过期",
+    }
+  },
+  invalidToken: {
+    code: '202',
+    data: {
+      message: "无效token",
+    }
   }
+
 }

@@ -1,14 +1,14 @@
 const Koa = require('koa')
 const KoaBody = require('koa-body')
 
-const userRouter = require('../router/userRouter')
+const router = require('../router')
 
 const errHandler = require('./errHandler')
 
 const app = new Koa()
 
 app.use(KoaBody())
-app.use(userRouter.routes())
+app.use(router.routes()).use(router.allowedMethods())
 
 // 统一的错误处理
 app.on('error', errHandler)

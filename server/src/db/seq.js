@@ -6,7 +6,7 @@ const {
   MYSQL_USER,
   MYSQL_PWD,
   MYSQL_DB,
-} = require('../config/config.default')
+} = process.env
 
 const sequelize = new Sequelize(MYSQL_DB, MYSQL_USER, MYSQL_PWD, {
   host: MYSQL_HOST,

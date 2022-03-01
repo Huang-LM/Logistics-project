@@ -1,13 +1,20 @@
 const bcrypt = require('bcryptjs')
-const { getUerInfo } = require('../service/userServive')
-const { userFormateError, userAlreadyExited } = require('../constant/errType')
+const { getUserInfo } = require('../service/userService')
+const {
+  userFormateError,
+  userAlreadyExited,
+  userRegisterError,
+  userDoesNotExist,
+  userLoginError,
+  invalidPassword,
+} = require('../constant/errType')
 
 // 验证用户名或密码是否为空
 const userValidator = async (ctx, next) => {
   const { username, password } = ctx.request.body
   // 合法性
   if (!username || !password) {
-    // console.error('用户名或密码为空', ctx.request.body)
+    console.error('用户名或密码为空', ctx.request.body)
     ctx.app.emit('error', userFormateError, ctx)
     return
   }
@@ -19,8 +26,17 @@ const userValidator = async (ctx, next) => {
 const verifyUser = async (ctx, next) => {
   const { username } = ctx.request.body
 
-  if (await getUerInfo({ username })) {
-    ctx.app.emit('error', userAlreadyExited, ctx)
+  try {
+    const res = await getUerInfo({ username })
+
+    if (res) {
+      console.error('用户名已经存在', { username })
+      ctx.app.emit('error', userAlreadyExited, ctx)
+      return
+    }
+  } catch (err) {
+    console.error('获取用户信息错误', err)
+    ctx.app.emit('error', userRegisterError, ctx)
     return
   }
 
@@ -29,7 +45,7 @@ const verifyUser = async (ctx, next) => {
 
 // 加密密码
 const crpytPassword = async (ctx, next) => {
-  const { password } = ctx.request.body
+  const { password, new_password } = ctx.request.body
 
   const salt = bcrypt.genSaltSync(10)
   // hash保存的是 密文
@@ -37,11 +53,69 @@ const crpytPassword = async (ctx, next) => {
 
   ctx.request.body.password = hash
 
+  if (new_password) {
+    const hash2 = bcrypt.hashSync(new_password, salt)
+    ctx.request.body.new_password = hash2
+  }
+
   await next()
 }
+
+// 验证登录信息
+const verifyLogin = async (ctx, next) => {
+
+  const { username, password } = ctx.request.body
+
+  try {
+    // 1. 判断用户是否存在(不存在:报错)
+    const res = await getUserInfo({ username })
+    // console.log(res);
+
+    if (!res) {
+      console.error('用户名不存在', { username })
+      ctx.app.emit('error', userDoesNotExist, ctx)
+      return
+    }
+
+    // 2. 密码是否匹配(不匹配: 报错)
+    if (!bcrypt.compareSync(password, res.password)) {
+      ctx.app.emit('error', invalidPassword, ctx)
+      return
+    }
+  } catch (err) {
+    console.error(err)
+    return ctx.app.emit('error', userLoginError, ctx)
+  }
+
+  await next()
+}
+
+// 验证旧密码是否正确
+const verifyPassword = async (ctx, next) => {
+
+  const { id, password } = ctx.request.body
+
+  try {
+    const res = await getUserInfo({ id })
+
+    // 密码是否匹配
+    if (!bcrypt.compareSync(password, res.password)) {
+      ctx.app.emit('error', invalidPassword, ctx)
+      return
+    }
+  } catch (err) {
+    console.error(err)
+    return ctx.app.emit('error', invalidPassword, ctx)
+  }
+
+  await next()
+}
+
 
 module.exports = {
   userValidator,
   verifyUser,
-  crpytPassword
+  crpytPassword,
+  verifyLogin,
+  verifyPassword
 }

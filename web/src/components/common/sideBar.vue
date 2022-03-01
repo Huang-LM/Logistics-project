@@ -98,7 +98,8 @@ export default {
     showBanner() {
       // console.log(this.userId);
       service.post("user/menu", { id: this.userId }).then(res => {
-        this.menuList = res.data;
+        console.log(res.data.data);
+        this.menuList = res.data.data;
       });
     }
   },

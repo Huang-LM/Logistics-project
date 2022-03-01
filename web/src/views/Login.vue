@@ -115,8 +115,9 @@ export default {
   components: { UserForm, FindPassword },
   created() {
     this.showCard();
-    service .get("/list") .then(res => { console.log(res); })
-
+    service.get("/list").then(res => {
+      console.log(res);
+    });
   },
   data() {
     return {
@@ -162,20 +163,36 @@ export default {
             .then(res => {
               // console.log(res.data);
               // this.getId();
-              if (res.data.code === 1) {
-                // console.log(res.data.token);
-                this.$store.commit("account/setToken", res.data.token);
+
+              const resData = res.data;
+              if (resData.code == 1) {
+                this.$store.commit("account/setToken", resData.data.token);
                 this.$store.commit(
                   "account/setUserName",
                   this.loginForm.username
                 );
-                // setTimeout(this.getId);
+                this.$store.commit("account/setUserID", resData.data.userId);
                 // this.$store.commit("account/setRoles", resDate.authz.roles);
-                this.$message.success("登录成功");
+                this.$message.success(resData.data.message);
                 this.$router.push("/home");
               } else {
-                this.$message.error(res.data.message);
+                this.$message.error(resData.data.message);
               }
+
+              // if (res.data.code === 1) {
+              //   // console.log(res.data.token);
+              //   this.$store.commit("account/setToken", res.data.token);
+              //   this.$store.commit(
+              //     "account/setUserName",
+              //     this.loginForm.username
+              //   );
+              //   // setTimeout(this.getId);
+              //   // this.$store.commit("account/setRoles", resDate.authz.roles);
+              //   this.$message.success("登录成功");
+              //   this.$router.push("/home");
+              // } else {
+              //   this.$message.error(res.data.message);
+              // }
             })
             .catch(err => {
               console.log(err);

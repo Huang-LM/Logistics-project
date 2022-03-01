@@ -10,9 +10,14 @@ module.exports = (err, ctx) => {
     case '102':
       status = 409
       break
+    case '201':
+    case '202':
+      status = 401
+      break
     default:
       status = 500
   }
   ctx.status = status
   ctx.body = err
+  console.log(err)
 }
