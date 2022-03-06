@@ -5,12 +5,18 @@ const { JWT_SECRET } = process.env
 const { tokenExpiredError, invalidToken } = require('../constant/errType')
 
 const auth = async (ctx, next) => {
-  const { authorization } = ctx.request.header
+  // console.log(ctx.request.header.token);
+  let authorization = 0;
+  if (ctx.request.header.token) {
+    authorization = ctx.request.header.token
+  } else {
+    authorization = ctx.request.header.authorization
+  }
+
+  // console.log(authorization)
   const token = authorization.replace('Bearer ', '')
-  // console.log(token)
 
   try {
-    // user中包含了payload的信息(id, user_name, is_admin)
     const user = jwt.verify(token, JWT_SECRET)
     ctx.state.user = user
   } catch (err) {

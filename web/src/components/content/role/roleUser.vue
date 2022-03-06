@@ -40,7 +40,7 @@
             v-for="item in options"
             :key="item.id"
             :label="item.name"
-            :value="item.name"
+            :value="item.id"
           >
           </el-option>
         </el-select>
@@ -196,7 +196,7 @@ export default {
         .get("/role/listRole")
         .then(res => {
           // console.log(1);
-          this.options = res.data;
+          this.options = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -209,11 +209,11 @@ export default {
       service
         .post("/user/select", this.queryInfo)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           const resData = res.data;
           // console.log(resData.records);
-          this.userList = resData;
-          this.total = resData.length;
+          this.userList = resData.list;
+          this.total = resData.total;
         })
         .catch(err => {
           console.log(err);

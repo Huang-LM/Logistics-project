@@ -14,7 +14,7 @@ module.exports = {
   userRegisterError: {
     code: '103',
     data: {
-      message: "登录出错",
+      message: "用户注册出错",
     }
   },
   userDoesNotExist: {
@@ -39,6 +39,12 @@ module.exports = {
     code: '107',
     data: {
       message: "用户还未通过审核",
+    }
+  },
+  emailAlreadyExited: {
+    code: '108',
+    data: {
+      message: "邮箱已被使用",
     }
   },
   tokenExpiredError: {

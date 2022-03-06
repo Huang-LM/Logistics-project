@@ -1,8 +1,8 @@
 <template>
   <div class="dictionaryManager">
     <el-table :data="dicList" style="width: 100%;" stripe>
-      <el-table-column prop="id" label="ID" sortable width="70">
-      </el-table-column>
+      <!-- <el-table-column prop="id" label="ID" sortable width="70">
+      </el-table-column> -->
       <el-table-column prop="name" label="名称" width="120"> </el-table-column>
       <el-table-column
         prop="createTime"
@@ -230,10 +230,10 @@ export default {
     //获取用户列表
     getDicList() {
       service
-        .post("/dictionaries/find")
+        .post("/dictionaries/find", { parentId: 0 })
         .then(res => {
           // console.log(res);
-          this.dicList = res.data;
+          this.dicList = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -273,9 +273,9 @@ export default {
       this.addDicForm.parentId = row.id;
       this.pid = row.id;
       service
-        .post("/dictionaries/findSonById?id=" + row.id)
+        .post("/dictionaries/find", { parentId: row.id })
         .then(res => {
-          this.dicSonList = res.data;
+          this.dicSonList = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -285,9 +285,9 @@ export default {
     },
     handleEditTwo(index, row) {
       service
-        .post("/dictionaries/findSonById?id=" + row.id)
+        .post("/dictionaries/find", { parentId: row.id })
         .then(res => {
-          this.dicGrandSonList = res.data;
+          this.dicGrandSonList = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -305,9 +305,9 @@ export default {
     },
     refrashGrandTable() {
       service
-        .post("/dictionaries/findSonById?id=" + this.pid)
+        .post("/dictionaries/find", { parentId: 0 })
         .then(res => {
-          this.dicGrandSonList = res.data;
+          this.dicList = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -315,9 +315,9 @@ export default {
     },
     refrashTable() {
       service
-        .post("/dictionaries/findSonById?id=" + this.pid)
+        .post("/dictionaries/find", { parentId: 0 })
         .then(res => {
-          this.dicSonList = res.data;
+          this.dicList = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -333,16 +333,14 @@ export default {
         .then(() => {
           // this.deleteId.id = row.id;
           service
-            .post("/dictionaries/delete?id=" + row.id)
+            .post("/dictionaries/delete", { id: row.id })
             .then(res => {
               if (res.data.code === 1) {
                 this.$message({
                   type: "success",
                   message: "该信息已删除!"
                 });
-                // this.refrashTable();
                 this.refrashGrandTable();
-                // this.getDicList();
               } else {
                 this.$message({
                   type: "info",

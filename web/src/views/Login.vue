@@ -115,9 +115,9 @@ export default {
   components: { UserForm, FindPassword },
   created() {
     this.showCard();
-    service.get("/list").then(res => {
-      console.log(res);
-    });
+    // service.get("/list").then(res => {
+    //   console.log(res);
+    // });
   },
   data() {
     return {
@@ -147,15 +147,15 @@ export default {
   methods: {
     async submitForm(formName) {
       // this.$router.push("/home");
-      await service
-        .post("/user/id", this.loginForm)
-        .then(res => {
-          // console.log(res.data);
-          this.$store.commit("account/setUserID", res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      // await service
+      //   .post("/user/id", this.loginForm)
+      //   .then(res => {
+      //     // console.log(res.data);
+      //     this.$store.commit("account/setUserID", res.data);
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
       this.$refs[formName].validate(valid => {
         if (valid) {
           service
@@ -164,6 +164,7 @@ export default {
               // console.log(res.data);
               // this.getId();
 
+              // 新
               const resData = res.data;
               if (resData.code == 1) {
                 this.$store.commit("account/setToken", resData.data.token);
@@ -179,6 +180,7 @@ export default {
                 this.$message.error(resData.data.message);
               }
 
+              // 老
               // if (res.data.code === 1) {
               //   // console.log(res.data.token);
               //   this.$store.commit("account/setToken", res.data.token);
@@ -193,6 +195,7 @@ export default {
               // } else {
               //   this.$message.error(res.data.message);
               // }
+              //
             })
             .catch(err => {
               console.log(err);

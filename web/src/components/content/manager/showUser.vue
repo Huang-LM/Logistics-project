@@ -40,7 +40,7 @@
             v-for="item in options"
             :key="item.id"
             :label="item.name"
-            :value="item.name"
+            :value="item.id"
           >
           </el-option>
         </el-select>
@@ -80,10 +80,10 @@
       <el-table-column prop="role" label="角色" width="100"> </el-table-column>
       <el-table-column label="审核" width="80">
         <template v-slot="scope">
-          <el-button v-if="scope.row.verify === false" type="info" size="mini"
+          <el-button v-if="scope.row.verify === 0" type="info" size="mini"
             >未通过</el-button
           >
-          <el-button v-if="scope.row.verify === true" type="success" size="mini"
+          <el-button v-if="scope.row.verify === 1" type="success" size="mini"
             >通过</el-button
           >
         </template>
@@ -418,7 +418,7 @@ export default {
         .then(res => {
           // console.log(res);
           const resData = res.data;
-          // console.log(resData.records);
+          // console.log(resData.list);
           this.userList = resData.list;
           this.total = resData.total;
         })
@@ -432,8 +432,8 @@ export default {
       service
         .get("/role/listRole")
         .then(res => {
-          // console.log(res);
-          this.options = res.data;
+          // console.log(res.data.data);
+          this.options = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -466,9 +466,8 @@ export default {
         .then(res => {
           // console.log(res);
           const resData = res.data;
-          // console.log(resData.records);
-          this.userList = resData;
-          this.total = resData.length;
+          this.userList = resData.list;
+          this.total = resData.total;
         })
         .catch(err => {
           console.log(err);

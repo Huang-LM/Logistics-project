@@ -163,7 +163,7 @@ export default {
         .get("role/listRole")
         .then(res => {
           // console.log(res);
-          this.roleList = res.data;
+          this.roleList = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -205,13 +205,13 @@ export default {
       // 暂时的获取全部侧边栏
       service.get("role/menus").then(res => {
         // console.log(res.data);
-        this.roleTree = res.data;
+        this.roleTree = res.data.data;
       });
 
       // 获取该角色的总菜单
       service.post("role/menu", { role_id: row.id }).then(res => {
         this.$nextTick(() => {
-          this.getdefaultKey(res.data);
+          this.getdefaultKey(res.data.data);
         });
       });
 
@@ -279,7 +279,7 @@ export default {
       })
         .then(() => {
           service
-            .post("/role/delete", { name: row.name })
+            .post("/role/delete", { id: row.id })
             .then(res => {
               if (res.data.code === 1) {
                 this.$message({

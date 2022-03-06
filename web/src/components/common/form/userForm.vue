@@ -159,7 +159,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           service
-            .post("/user/add", this.addUserForm)
+            .post("/user/register", this.addUserForm)
             .then(res => {
               // console.log(res);
               if (res.data.code === 1) {
@@ -169,13 +169,18 @@ export default {
                 });
                 this.$refs[formName].resetFields();
                 this.$router.push("/login");
-              } else if (res.data.code === 0) {
+              } else if (res.data.code === 102) {
                 this.$message({
                   message: "用户名已存在",
                   type: "warning"
                 });
+              } else if (res.data.code === 108) {
+                this.$message({
+                  message: "邮箱已被使用",
+                  type: "warning"
+                });
               } else {
-                this.$message.error("注册失败,请重试！");
+                this.$message.error(res.data.message);
               }
             })
             .catch(err => {

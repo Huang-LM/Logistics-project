@@ -40,7 +40,7 @@
             v-for="item in options"
             :key="item.value"
             :label="item.label"
-            :value="item.label"
+            :value="item.id"
           >
           </el-option>
         </el-select>
@@ -68,6 +68,8 @@
         <template v-slot="scope">
           <el-switch
             v-model="scope.row.verify"
+            :active-value="1"
+            :inactive-value="0"
             active-text="通过"
             inactive-text="未通过"
             @change="examineUser(scope.row.id, scope.row.verify)"
@@ -257,9 +259,9 @@ export default {
     // },
     //更新用户状态
     examineUser(id, verify) {
-      let _verify = verify ? 0 : 1;
+      // let _verify = verify ? 0 : 1;
       this.test.id = id;
-      this.test.verify = _verify;
+      this.test.verify = verify;
       // console.log(this.test);
 
       service

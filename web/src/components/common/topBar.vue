@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import service from "@/utils/request";
+// import service from "@/utils/request";
 export default {
   name: "topBar",
 
@@ -43,11 +43,9 @@ export default {
     },
     logout() {
       this.$store.commit("account/reLogin");
-      service.get("/user/logout", () => {
-        // res.send('GET request to the homepage')
-        // console.log(res);
-        // console.log("zx");
-      });
+      // 注销时将token列入黑名单
+      // service.get("/user/logout", () => {
+      // });
       // window.sessionStorage.setItem("activePath", "/home");
       window.sessionStorage.clear();
 

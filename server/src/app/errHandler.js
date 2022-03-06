@@ -11,6 +11,8 @@ module.exports = (err, ctx) => {
       status = 409
       break
     case '201':
+      status = 401
+      break
     case '202':
       status = 401
       break

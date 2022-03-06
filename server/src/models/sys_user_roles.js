@@ -37,6 +37,9 @@ const attributes = {
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    get() {
+      return moment(this.getDataValue('createTime')).format('YYYY-MM-DD HH:mm:ss');
+    },
     primaryKey: false,
     autoIncrement: false,
     comment: null,
@@ -46,6 +49,9 @@ const attributes = {
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    get() {
+      return moment(this.getDataValue('updateTime')).format('YYYY-MM-DD HH:mm:ss');
+    },
     primaryKey: false,
     autoIncrement: false,
     comment: null,

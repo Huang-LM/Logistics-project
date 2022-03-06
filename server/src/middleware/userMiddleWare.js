@@ -7,6 +7,7 @@ const {
   userDoesNotExist,
   userLoginError,
   invalidPassword,
+  emailAlreadyExited,
 } = require('../constant/errType')
 
 // 验证用户名或密码是否为空
@@ -27,11 +28,32 @@ const verifyUser = async (ctx, next) => {
   const { username } = ctx.request.body
 
   try {
-    const res = await getUerInfo({ username })
+    const res = await getUserInfo({ username })
 
     if (res) {
       console.error('用户名已经存在', { username })
       ctx.app.emit('error', userAlreadyExited, ctx)
+      return
+    }
+  } catch (err) {
+    console.error('获取用户信息错误', err)
+    ctx.app.emit('error', userRegisterError, ctx)
+    return
+  }
+
+  await next()
+}
+// 验证邮箱是否已经存在
+const verifyEmail = async (ctx, next) => {
+  const { email } = ctx.request.body
+
+  try {
+    const res = await getUserInfo({ email })
+
+    // console.log(res);
+    if (res) {
+      console.error('邮箱已被使用', { email })
+      ctx.app.emit('error', emailAlreadyExited, ctx)
       return
     }
   } catch (err) {
@@ -93,16 +115,29 @@ const verifyLogin = async (ctx, next) => {
 // 验证旧密码是否正确
 const verifyPassword = async (ctx, next) => {
 
-  const { id, password } = ctx.request.body
+  const { id, email, password } = ctx.request.body
 
   try {
-    const res = await getUserInfo({ id })
+    if (email) {
+      console.log(email);
+      const res = await getUserInfo({ email })
+      console.log(res);
 
-    // 密码是否匹配
-    if (!bcrypt.compareSync(password, res.password)) {
-      ctx.app.emit('error', invalidPassword, ctx)
-      return
+      // 密码是否匹配
+      if (!bcrypt.compareSync(password, res.password)) {
+        ctx.app.emit('error', invalidPassword, ctx)
+        return
+      }
+    } else {
+      const res = await getUserInfo({ id })
+
+      // 密码是否匹配
+      if (!bcrypt.compareSync(password, res.password)) {
+        ctx.app.emit('error', invalidPassword, ctx)
+        return
+      }
     }
+
   } catch (err) {
     console.error(err)
     return ctx.app.emit('error', invalidPassword, ctx)
@@ -117,5 +152,6 @@ module.exports = {
   verifyUser,
   crpytPassword,
   verifyLogin,
-  verifyPassword
+  verifyPassword,
+  verifyEmail
 }

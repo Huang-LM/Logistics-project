@@ -16,6 +16,7 @@
     "koa-router": "^10.1.1",
     "moment": "^2.29.1",
     "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.2",
     "sequelize": "^6.16.2",
     "sequelize-automate": "^1.2.2"
   },

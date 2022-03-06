@@ -168,7 +168,8 @@ export default {
     },
     getUser() {
       service.post("user/get", { id: this.userId }).then(res => {
-        this.updateUserForm = res.data;
+        // console.log(res.data);
+        this.updateUserForm = res.data.data;
       });
     },
     // 更新用户
@@ -209,6 +210,7 @@ export default {
       service
         .post("user/updatepw", this.updatePasswordForm)
         .then(res => {
+          console.log(res.data.code);
           if (res.data.code === 1) {
             this.$message.success(res.data.message);
             this.dialogFormVisible = false;

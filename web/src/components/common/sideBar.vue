@@ -85,7 +85,7 @@ export default {
       window.sessionStorage.setItem("subName", subName);
       this.activePath = path;
     },
-    async getState() {
+    getState() {
       // this.activePath = activePath.state.sideBarPath;
       this.activePath = window.sessionStorage.getItem("activePath");
       this.subName = window.sessionStorage.getItem("subName");
@@ -95,18 +95,20 @@ export default {
       this.showBanner();
       // this.roles = this.$store.state.account.roles;
     },
-    showBanner() {
+    async showBanner() {
       // console.log(this.userId);
-      service.post("user/menu", { id: this.userId }).then(res => {
-        console.log(res.data.data);
+      await service.post("user/menu", { id: this.userId }).then(res => {
+        // console.log(res.data.data);
         this.menuList = res.data.data;
+
+        // this.menuList = res.data;
       });
     }
   },
   mounted() {
     bus.$on("getSide", () => {
       service.post("user/menu", { id: this.userId }).then(res => {
-        this.menuList = res.data;
+        this.menuList = res.data.data;
       });
     });
   },

@@ -34,7 +34,10 @@ module.exports = sequelize => {
     createTime: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      get() {
+        return moment(this.getDataValue('createTime')).format('YYYY-MM-DD HH:mm:ss');
+      },
       primaryKey: false,
       autoIncrement: false,
       comment: null,
@@ -43,7 +46,10 @@ module.exports = sequelize => {
     updateTime: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      get() {
+        return moment(this.getDataValue('updateTime')).format('YYYY-MM-DD HH:mm:ss');
+      },
       primaryKey: false,
       autoIncrement: false,
       comment: null,
