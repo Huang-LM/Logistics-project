@@ -184,9 +184,12 @@ export default {
     getLogistics() {
       this.user_id = this.$store.state.account.userID;
       service
-        .post("/logisticsInfo/getLogistics", { user_id: this.user_id })
+        .post("/logisticsInfo/getLogistics", {
+          user_id: this.user_id,
+          logistics_number: null
+        })
         .then(res => {
-          this.logisticsData = res.data;
+          this.logisticsData = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -195,13 +198,14 @@ export default {
     },
     selectLogistics() {
       service
-        .post("/logisticsInfo/getLogisticsByNumber", {
+        .post("/logisticsInfo/getLogistics", {
+          user_id: null,
           logistics_number: this.queryInfo.logistics_number
         })
         .then(res => {
-          // console.log(res.data);
+          console.log(res.data.data);
           this.logisticsData = [];
-          this.logisticsData.push(res.data);
+          this.logisticsData.push(res.data.data);
         })
         .catch(err => {
           console.log(err);

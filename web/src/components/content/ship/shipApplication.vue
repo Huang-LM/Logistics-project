@@ -291,10 +291,10 @@ export default {
     },
     getOption() {
       service
-        .post("/dictionaries/findSonByName?name=货物类型")
+        .post("/dictionaries/find", { name: "货物类型" })
         .then(res => {
           // console.log(res);
-          this.options = res.data;
+          this.options = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -302,10 +302,10 @@ export default {
     },
     getWay() {
       service
-        .post("/dictionaries/findSonByName?name=运输方式")
+        .post("/dictionaries/find", { name: "运输方式" })
         .then(res => {
           // console.log(res);
-          this.ways = res.data;
+          this.ways = res.data.data;
         })
         .catch(err => {
           console.log(err);

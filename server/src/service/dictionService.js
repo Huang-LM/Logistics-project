@@ -2,9 +2,19 @@ const Diction = require("../models/sys_dictionaries")
 
 class DictionService {
 
-  async find(parentId) {
+  async find(parentId, name) {
+    let pId = null
+    if (name) {
+      const resName = await Diction.findOne({
+        where: { name: name }
+      })
+      pId = resName.dataValues.id
+      // console.log(pId);
+    } else {
+      pId = parentId
+    }
     const res = await Diction.findAll({
-      where: { parentId: parentId }
+      where: { parentId: pId }
     })
 
     return res

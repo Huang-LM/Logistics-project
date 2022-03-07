@@ -3,7 +3,7 @@
     <!-- 搜索 -->
     <el-form :model="queryInfo" ref="queryInfo">
       <el-form-item>
-        <el-input
+        <!-- <el-input
           v-model="queryInfo.id"
           style="width: 80px"
           auto-complete="new-password"
@@ -11,7 +11,7 @@
           clearable
           class="search-input"
           @clear="getGoodsList"
-        ></el-input>
+        ></el-input> -->
         <el-input
           v-model="queryInfo.phone"
           style="width: 200px"

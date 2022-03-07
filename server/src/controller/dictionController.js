@@ -3,20 +3,20 @@ const { find, add, deleteD } = require("../service/dictionService")
 class DictionController {
 
   // 查找pid为0
-  async findId(ctx) {
-    const { parentId } = ctx.request.body
+  async findDic(ctx) {
+    const { parentId, name } = ctx.request.body
     try {
-      const res = await find(parentId)
+      const res = await find(parentId, name)
       if (res) {
         ctx.body = {
           code: 1,
-          message: "查找pid为0成功",
+          message: "查找字典数据成功",
           data: res
         }
       } else {
         ctx.body = {
           code: 0,
-          message: "查找pid为0失败"
+          message: "查找字典数据失败"
         }
       }
     } catch (error) {
