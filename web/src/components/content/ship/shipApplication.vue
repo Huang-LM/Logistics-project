@@ -155,6 +155,7 @@ export default {
         shipping_name: "",
         shipping_phone: "",
         shipping_address: "",
+        shipping_time: null,
         mailing_type: "",
         logistics_way: "",
         note: "",

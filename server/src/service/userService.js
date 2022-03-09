@@ -144,6 +144,7 @@ class UserService {
     // role && Object.assign(whereOpt, { role })
     gender && Object.assign(whereOpt, { gender })
     const offset = page * pageSize
+
     if (role) {
       const res = await UserRole.findAll({
         attributes: ['user_id'], where: {

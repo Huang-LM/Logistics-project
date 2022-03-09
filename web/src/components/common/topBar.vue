@@ -2,7 +2,7 @@
   <div class="topBar">
     <el-row class="topBar-nav">
       <el-col :span="22">
-        <div class="bar">物流信息平台</div>
+        <div class="bar">码头船只出行系统</div>
       </el-col>
       <!-- <el-col :span="2">
         <el-link type="info" :underline="false" @click="setting"

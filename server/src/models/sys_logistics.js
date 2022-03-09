@@ -24,7 +24,7 @@ const attributes = {
     field: "verify"
   },
   logistics_number: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BIGINT,
     allowNull: true,
     defaultValue: null,
     primaryKey: false,
@@ -127,6 +127,9 @@ const attributes = {
     allowNull: true,
     defaultValue: null,
     primaryKey: false,
+    get() {
+      return moment(this.getDataValue('shipping_time')).format('YYYY-MM-DD HH:mm:ss');
+    },
     autoIncrement: false,
     comment: "预计到达时间",
     field: "shipping_time"
@@ -158,8 +161,9 @@ const attributes = {
 };
 const options = {
   tableName: "sys_logistics",
-  createdAt: "createTime",
-  updatedAt: "updateTime",
+  timestamps: false,
+  // createdAt: "createTime",
+  // updatedAt: "updateTime",
   comment: "",
   indexes: []
 };

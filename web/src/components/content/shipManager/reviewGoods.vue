@@ -101,44 +101,40 @@
       </el-table-column>
       <el-table-column label="物流状态" min-width="120px">
         <template v-slot="props">
-          <el-button
+          <!-- <el-button
             type="info"
             v-if="props.row.verify === 0"
             size="mini"
             @click="changeVerify(props.row)"
             >待审核</el-button
-          >
+          >-->
+          <el-dropdown v-if="props.row.verify === 0" @command="handleCommand">
+            <el-button
+              size="mini"
+              split-button
+              type="info"
+              @click="handleClick(props.row.id)"
+            >
+              未审核<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="1">审核通过</el-dropdown-item>
+              <el-dropdown-item command="2">未通过审核</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
           <el-button
             type="success"
             size="mini"
-            @click="changeVerify(props.row)"
             v-else-if="props.row.verify === 1"
             >审核通过</el-button
           >
           <el-button
             type="danger"
             size="mini"
-            @click="changeVerify(props.row)"
             v-else-if="props.row.verify === 2"
             >未通过审核</el-button
           >
         </template>
-        <!-- <template v-slot="scope">
-          <el-select
-            v-model="scope.row.verify"
-            placeholder="请选择"
-            style="width: 120px"
-            @change="updateUserRole(scope.row.id, scope.row.verify)"
-          >
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </template> -->
       </el-table-column>
       <!-- <el-table-column label="寄件地址" prop="mailing_address">
       </el-table-column>
@@ -275,7 +271,7 @@ export default {
     return {
       queryInfo: {
         // 查询参数
-        id: "",
+        // id: "",
         mailing_phone: "",
         logistics_number: "",
         // shipping_address: "",
@@ -308,6 +304,20 @@ export default {
       dialogFormVisible2: false,
       // shipping_address_options: [],
       // 之后获取rowWay以后去找子id去
+      optionsVerify: [
+        {
+          value: "0",
+          label: "未审核"
+        },
+        {
+          value: "1",
+          label: "审核通过"
+        },
+        {
+          value: "2",
+          label: "未通过审核"
+        }
+      ],
       options: [
         {
           value: "0",
@@ -322,7 +332,11 @@ export default {
           label: "UI2314"
         }
       ],
-      select_verify: ""
+      select_verify: "",
+      verifyId: null,
+      delId: {
+        id: 0
+      }
     };
   },
 
@@ -331,8 +345,8 @@ export default {
       service
         .post("/logisticsInfo/listLogistics", this.queryInfo)
         .then(res => {
-          // console.log(res);
-          const resData = res.data;
+          // console.log(res.data);
+          const resData = res.data.data;
           // console.log(resData.records);
           this.logisticsData = resData.list;
           this.total = resData.total;
@@ -344,43 +358,28 @@ export default {
     },
 
     selectGoodsList() {
-      service.post("/logisticsInfo/select", this.queryInfo).then(res => {
-        if (res.status === 200) this.logisticsData = res.data;
+      service.post("/logisticsInfo/listLogistics", this.queryInfo).then(res => {
+        const resData = res.data.data;
+        // console.log(resData.records);
+        this.logisticsData = resData.list;
+        this.total = resData.total;
       });
     },
     // 修改审核值
-    changeVerify(row) {
-      if (row.verify === 0) {
-        this.successVerify(row.id);
-      } else if (row.verify === 1) {
-        this.refuseVerify(row.id);
-      } else if (row.verify === 2) {
-        this.successVerify(row.id);
+    handleCommand(command) {
+      if (command == 1) {
+        this.updateVerify(1);
+      } else if (command == 2) {
+        this.updateVerify(2);
       }
     },
-    // 同意寄件
-    successVerify(id) {
-      service
-        .post("/logisticsInfo/agree", { id: id })
-        .then(res => {
-          // console.log(res.data);
-
-          if (res.data.code === 1) {
-            this.$message.success(res.data.message);
-            this.getGoodsList();
-          } else {
-            this.$message.error(res.data.message);
-          }
-        })
-        .catch(err => {
-          this.$message.error(err.data.message);
-          this.getGoodsList();
-        });
+    handleClick(id) {
+      this.verifyId = id;
     },
-    // 拒绝寄件
-    refuseVerify(id) {
+    // 同意寄件
+    updateVerify(verify) {
       service
-        .post("/logisticsInfo/refuse", { id: id })
+        .post("/logisticsInfo/updateLogistics", { id: this.verifyId, verify })
         .then(res => {
           if (res.data.code === 1) {
             this.$message.success(res.data.message);
@@ -396,10 +395,10 @@ export default {
     },
     getWays(way) {
       service
-        .post("/dictionaries/findSonByName?name=" + way)
+        .post("/dictionaries/find", { name: way })
         .then(res => {
           // console.log(res);
-          this.options = res.data;
+          this.options = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -425,14 +424,14 @@ export default {
         .then(() => {
           this.delId.id = row.id;
           service
-            .post("/user/delete", this.delId)
+            .post("/logisticsInfo/delete", this.delId)
             .then(res => {
               if (res.data.code === 1) {
                 this.$message({
                   type: "success",
                   message: "该信息已删除!"
                 });
-                this.getUserList();
+                this.getGoodsList();
               } else {
                 this.$message({
                   type: "info",
@@ -470,7 +469,7 @@ export default {
         if (valid) {
           //console.log(this.addUserForm);
           service
-            .post("/logisticsInfo/update", this.updateLogisticsForm)
+            .post("/logisticsInfo/updateLogistics", this.updateLogisticsForm)
             .then(res => {
               // console.log(res);
               if (res.data.code === 1) {

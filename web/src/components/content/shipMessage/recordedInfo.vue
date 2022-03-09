@@ -3,7 +3,7 @@
     <!-- 搜索 -->
     <el-form :model="queryInfo" ref="queryInfo">
       <el-form-item>
-        <el-input
+        <!-- <el-input
           v-model="queryInfo.id"
           style="width: 80px"
           auto-complete="new-password"
@@ -11,7 +11,7 @@
           clearable
           class="search-input"
           @clear="getGoodsList"
-        ></el-input>
+        ></el-input> -->
         <el-input
           v-model="queryInfo.phone"
           style="width: 200px"
@@ -289,8 +289,7 @@ export default {
       options: [],
       newState: {
         state_id: "",
-        logistics_id: "",
-        create_time: ""
+        logistics_id: ""
       },
       pickerOptions: {
         shortcuts: [
@@ -327,7 +326,7 @@ export default {
         .post("/logisticsInfo/listLogistics", this.queryInfo)
         .then(res => {
           // console.log(res);
-          const resData = res.data;
+          const resData = res.data.data;
           // console.log(resData.records);
           this.logisticsData = resData.list;
           this.total = resData.total;
@@ -338,18 +337,30 @@ export default {
         });
     },
     selectGoodsList() {
-      service.post("/logisticsInfo/select", this.queryInfo).then(res => {
-        if (res.status === 200) this.logisticsData = res.data;
-      });
+      service
+        .post("/logisticsInfo/getLogistics", {
+          user_id: null,
+          logistics_number: this.queryInfo.logistics_number
+        })
+        .then(res => {
+          this.logisticsData = [];
+
+          if (res.data.data.length !== 0) {
+            this.logisticsData.push(res.data.data);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.$message.error("网络错误！");
+        });
     },
     //跳转至编辑用户
     handleEdit(index, row) {
-      this.newState.logistics_id = row.logistics_number;
+      this.newState.logistics_id = row.logistics_id;
       service
-        .post("/logisticsInfo/state", { id: row.logistics_number })
+        .post("/logisticsInfo/state", { id: row.logistics_id })
         .then(res => {
           this.state = res.data;
-          // console.log(res.data);
         });
       this.dialogFormVisible = true;
     },
@@ -399,7 +410,7 @@ export default {
       service
         .get("/logisticsInfo/allState")
         .then(res => {
-          this.options = res.data;
+          this.options = res.data.data;
         })
         .catch(err => {
           console.log(err);
@@ -409,7 +420,7 @@ export default {
     updateTime() {
       // console.log(this.updateLogisticsForm);
       service
-        .post("/logisticsInfo/update", this.updateLogisticsForm)
+        .post("/logisticsInfo/updateLogistics", this.updateLogisticsForm)
         .then(res => {
           if (res.data.code === 1) {
             this.$message.success(res.data.message);

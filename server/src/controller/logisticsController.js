@@ -1,5 +1,5 @@
 
-const { add, find, findState } = require("../service/logisticsService")
+const { add, find, findState, findListLogi, updatelogi, deletelogi, getAllState } = require("../service/logisticsService")
 
 class LogisticsController {
   async sendLogi(ctx) {
@@ -9,6 +9,7 @@ class LogisticsController {
       shipping_name,
       shipping_phone,
       shipping_address,
+      shipping_time,
       mailing_type,
       logistics_way,
       note,
@@ -20,6 +21,7 @@ class LogisticsController {
         shipping_name,
         shipping_phone,
         shipping_address,
+        shipping_time,
         mailing_type,
         logistics_way,
         note,
@@ -68,9 +70,114 @@ class LogisticsController {
 
   async getState(ctx) {
     try {
-      const { logistics_number } = ctx.request.body
+      const { id } = ctx.request.body
+      const res = await findState(id)
+      if (res) {
+        ctx.body = {
+          code: 1,
+          message: "查询成功",
+          data: res
+        }
+      } else {
+        ctx.body = {
+          code: 0,
+          message: "查询失败"
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-      const res = await findState(logistics_number)
+  async getListLogi(ctx) {
+    try {
+      const { mailing_phone, logistics_number, page, pageSize } = ctx.request.body
+
+      const res = await findListLogi(mailing_phone, logistics_number, page, pageSize)
+      if (res) {
+        ctx.body = {
+          code: 1,
+          message: "查询成功",
+          data: res
+        }
+      } else {
+        ctx.body = {
+          code: 0,
+          message: "查询失败"
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async updateLogi(ctx) {
+    try {
+      const { id, verify, logistics_way, logistics_way_number, shipping_time } = ctx.request.body
+
+      const res = await updatelogi(id, verify, logistics_way, logistics_way_number, shipping_time)
+      if (res) {
+        ctx.body = {
+          code: 1,
+          message: "更新成功",
+        }
+      } else {
+        ctx.body = {
+          code: 0,
+          message: "更新失败"
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async deleteLogi(ctx) {
+    try {
+      const { id } = ctx.request.body
+      // console.log(id);
+
+      const res = await deletelogi(id)
+      if (res) {
+        ctx.body = {
+          code: 1,
+          message: "删除成功",
+        }
+      } else {
+        ctx.body = {
+          code: 0,
+          message: "删除失败"
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async allState(ctx) {
+    try {
+      const res = await getAllState()
+      if (res) {
+        ctx.body = {
+          code: 1,
+          message: "查询成功",
+          data: res
+        }
+      } else {
+        ctx.body = {
+          code: 0,
+          message: "查询失败"
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async findState(ctx) {
+    try {
+      const { id } = ctx.request.body
+      const res = await findState(id)
       if (res) {
         ctx.body = {
           code: 1,

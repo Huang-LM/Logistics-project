@@ -94,7 +94,7 @@
       </el-table-column>
       <el-table-column label="预计到达时间" sortable prop="shipping_time">
         <template v-slot="props"
-          ><span v-if="props.row.shipping_time === null">未知</span>
+          ><span v-if="props.row.shipping_time === 'Invalid date'">未知</span>
           <span v-else>{{ props.row.shipping_time }}</span></template
         >
       </el-table-column>
@@ -185,10 +185,10 @@ export default {
       this.user_id = this.$store.state.account.userID;
       service
         .post("/logisticsInfo/getLogistics", {
-          user_id: this.user_id,
-          logistics_number: null
+          user_id: this.user_id
         })
         .then(res => {
+          // console.log(res.data.data);
           this.logisticsData = res.data.data;
         })
         .catch(err => {
@@ -203,9 +203,12 @@ export default {
           logistics_number: this.queryInfo.logistics_number
         })
         .then(res => {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           this.logisticsData = [];
-          this.logisticsData.push(res.data.data);
+
+          if (res.data.data.length !== 0) {
+            this.logisticsData.push(res.data.data);
+          }
         })
         .catch(err => {
           console.log(err);
