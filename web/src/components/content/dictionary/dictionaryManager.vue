@@ -340,6 +340,8 @@ export default {
                   type: "success",
                   message: "该信息已删除!"
                 });
+                this.innerDrawer = false;
+                this.drawer = false;
                 this.refrashGrandTable();
               } else {
                 this.$message({

@@ -45,9 +45,9 @@
               </el-breadcrumb>
             </el-col>
           </el-row>
-          <div class="welcomeText" v-show="welcomeShow">
+          <!-- <div class="welcomeText" v-show="welcomeShow">
             欢迎来到物流管理平台!
-          </div>
+          </div> -->
           <transition :name="transitionName">
             <router-view> </router-view>
           </transition>

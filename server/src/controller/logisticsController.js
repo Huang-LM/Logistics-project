@@ -1,5 +1,5 @@
 
-const { add, find, findState, findListLogi, updatelogi, deletelogi, getAllState } = require("../service/logisticsService")
+const { add, find, findState, findListLogi, updatelogi, deletelogi, getAllState, addstate } = require("../service/logisticsService")
 
 class LogisticsController {
   async sendLogi(ctx) {
@@ -45,6 +45,28 @@ class LogisticsController {
     }
   }
 
+  async addState(ctx) {
+    const { state_id, logistics_id } = ctx.request.body
+    try {
+      const res = await addstate(state_id, logistics_id)
+
+      if (res) {
+        ctx.body = {
+          code: 1,
+          message: "新增成功",
+          data: res
+        }
+      } else {
+        ctx.body = {
+          code: 0,
+          message: "新增失败"
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async getLogi(ctx) {
     try {
       const { user_id, logistics_number } = ctx.request.body
@@ -71,6 +93,7 @@ class LogisticsController {
   async getState(ctx) {
     try {
       const { id } = ctx.request.body
+      // console.log(id);
       const res = await findState(id)
       if (res) {
         ctx.body = {
@@ -116,6 +139,7 @@ class LogisticsController {
       const { id, verify, logistics_way, logistics_way_number, shipping_time } = ctx.request.body
 
       const res = await updatelogi(id, verify, logistics_way, logistics_way_number, shipping_time)
+
       if (res) {
         ctx.body = {
           code: 1,

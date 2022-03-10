@@ -93,7 +93,7 @@ export default {
       this.userId = this.$store.state.account.userID;
       // setTimeout(this.showBanner(), 5000);
       this.showBanner();
-      // this.roles = this.$store.state.account.roles;
+      this.roles = this.$store.state.account.roles;
     },
     async showBanner() {
       // console.log(this.userId);

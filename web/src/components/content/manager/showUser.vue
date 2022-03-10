@@ -461,6 +461,14 @@ export default {
     // 查找用户
     selectUserList() {
       // console.log(this.queryInfo);
+      if (
+        this.queryInfo.phone ||
+        this.queryInfo.id ||
+        this.queryInfo.username ||
+        this.queryInfo.role
+      ) {
+        this.queryInfo.page = 0;
+      }
       service
         .post("/user/select", this.queryInfo)
         .then(res => {

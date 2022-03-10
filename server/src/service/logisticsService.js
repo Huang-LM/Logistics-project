@@ -1,11 +1,12 @@
 const Logistics = require("../models/sys_logistics")
 const UserLogistics = require("../models/sys_user_logistics")
+const LogisticsState = require("../models/sys_logistics_state");
+const State = require("../models/sys_state");
 
 const {
   Op
 } = require('sequelize');
-const LogisticsState = require("../models/sys_logistics_state");
-const State = require("../models/sys_state");
+
 
 class LogisticsService {
 
@@ -42,11 +43,16 @@ class LogisticsService {
       user_id: user_id
     })
 
-    await LogisticsState.create({
-      logistics_id: res.dataValues.id,
-      state_id: 1
-    })
+    // await LogisticsState.create({
+    //   logistics_id: res.dataValues.id,
+    //   state_id: 1
+    // })
 
+    return res.dataValues
+  }
+
+  async addstate(state_id, logistics_id) {
+    const res = await LogisticsState.create({ state_id, logistics_id })
     return res.dataValues
   }
 
@@ -85,11 +91,30 @@ class LogisticsService {
   }
 
   async findState(id) {
-    const res = await LogisticsState.findAll({ where: { logistics_id: id } })
+    let state_id = null
+    let stateIdss = []
+    const stateIds = await LogisticsState.findAll({ attributes: ['state_id'], where: { logistics_id: id } })
+    console.log(stateIds);
+    if (stateIds.length !== 0) {
+      for (let i = 0; i < stateIds.length; i++) {
+        const element = stateIds[i];
+        stateIdss.push(element.dataValues.state_id)
+      }
+      state_id = {
+        [Op.or]: stateIdss
+      }
+      console.log(state_id);
 
+      const res = await State.findAll({
+        where: {
+          id: state_id
+        }
+      })
+      return res
+    } else {
+      return
+    }
 
-    return res
-    // 之后还要把res的stateid提取出来查询返回
 
   }
 
@@ -110,7 +135,7 @@ class LogisticsService {
         limit: pageSize
       });
 
-      console.log(rows);
+      // console.log(rows);
 
       return {
         list: rows,
@@ -123,16 +148,27 @@ class LogisticsService {
 
   async updatelogi(id, verify, logistics_way, logistics_way_number, shipping_time) {
     const opt = {}
-    if (verify === 1) {
+    const lastVerify = await Logistics.findOne({ attributes: ['verify'], where: { id: id } })
+    // console.log(lastVerify);
+
+    if (lastVerify.dataValues.verify === 0 && verify === 1) {
       let logistics_number = Math.floor((Math.random() + Math.floor(Math.random() * 9 + 1)) * Math.pow(10, 9))
-      console.log(logistics_number);
+      // console.log(logistics_number);
       Object.assign(opt, { logistics_number })
+
+      await LogisticsState.create({
+        logistics_id: id,
+        state_id: 1
+      })
     }
+
     id && Object.assign(opt, { id })
     verify && Object.assign(opt, { verify })
     logistics_way && Object.assign(opt, { logistics_way })
     logistics_way_number && Object.assign(opt, { logistics_way_number })
-    shipping_time && Object.assign(opt, { shipping_time })
+    if (shipping_time !== 'Invalid date') {
+      Object.assign(opt, { shipping_time })
+    }
 
     const res = await Logistics.update(opt, { where: { id } })
     return res

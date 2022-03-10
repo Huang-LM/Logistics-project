@@ -1,7 +1,7 @@
 const {
   DataTypes, Sequelize
 } = require('sequelize');
-
+var moment = require('moment');
 const sequelize = require('../db/seq')
 
 // module.exports = sequelize => {

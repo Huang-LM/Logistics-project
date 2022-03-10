@@ -38,8 +38,8 @@
         >
           <el-option
             v-for="item in options"
-            :key="item.value"
-            :label="item.label"
+            :key="item.id"
+            :label="item.name"
             :value="item.id"
           >
           </el-option>
@@ -117,6 +117,7 @@ export default {
   directives: { waves },
   created() {
     this.getUserList();
+    this.getRoleOptions();
   },
   data() {
     let validatePass = (rule, value, callback) => {
@@ -215,17 +216,37 @@ export default {
           this.$message.error("网络异常");
         });
     },
+    // 获取角色菜单
+    getRoleOptions() {
+      service
+        .get("/role/listRole")
+        .then(res => {
+          // console.log(1);
+          this.options = res.data.data;
+        })
+        .catch(err => {
+          console.log(err);
+          this.$message.error("网络异常");
+        });
+    },
     // 查找用户
     selectUserList() {
-      console.log(this.queryInfo);
+      // console.log(this.queryInfo);
+      if (
+        this.queryInfo.phone ||
+        this.queryInfo.id ||
+        this.queryInfo.username ||
+        this.queryInfo.role
+      ) {
+        this.queryInfo.page = 0;
+      }
       service
         .post("/user/select", this.queryInfo)
         .then(res => {
-          console.log(res);
           const resData = res.data;
-          // console.log(resData.records);
-          this.userList = resData;
-          this.total = resData.length;
+
+          this.userList = resData.list;
+          this.total = resData.total;
         })
         .catch(err => {
           console.log(err);

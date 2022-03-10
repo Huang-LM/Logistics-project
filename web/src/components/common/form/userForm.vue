@@ -197,7 +197,7 @@ export default {
     getEmail() {
       this.loading = true;
       service
-        .post("/user/code", { emailNo: this.addUserForm.email })
+        .post("/user/code", { email: this.addUserForm.email })
         .then(res => {
           // console.log(res);
           if (res.data.code === 1) {

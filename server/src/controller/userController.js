@@ -71,7 +71,7 @@ class UserController {
       to: email,
       subject: '验证码',
       text: '说明内容',
-      html: '<h2>【物流平台】</h2> 验证码：<span>' + code + '</span>'
+      html: '<h2>【码头船只出行平台】</h2> 验证码：<span>' + code + '</span>'
     }
     try {
       await transporter.sendMail(mailOptions)
@@ -135,8 +135,14 @@ class UserController {
 
       // 未通过审核无法登录
       if (!res.verify) {
-        ctx.app.emit('error', userNotApproved, ctx)
-        return
+        // ctx.app.emit('error', userNotApproved, ctx)
+        return ctx.body = {
+          code: 0,
+          status: 200,
+          data: {
+            message: "用户还未通过审核，请等待审核"
+          }
+        }
       }
 
       // await getUerRole(res.id)

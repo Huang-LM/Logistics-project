@@ -166,6 +166,7 @@ export default {
 
               // 新
               const resData = res.data;
+              console.log(resData.code);
               if (resData.code == 1) {
                 this.$store.commit("account/setToken", resData.data.token);
                 this.$store.commit(
@@ -173,10 +174,11 @@ export default {
                   this.loginForm.username
                 );
                 this.$store.commit("account/setUserID", resData.data.userId);
-                // this.$store.commit("account/setRoles", resDate.authz.roles);
+                // this.$store.commit("account/setRoles", resData.data.roles);
                 this.$message.success(resData.data.message);
                 this.$router.push("/home");
-              } else {
+              } else if (resData.code == 0) {
+                // console.log(123123);
                 this.$message.error(resData.data.message);
               }
 

@@ -13,7 +13,7 @@
           @clear="getGoodsList"
         ></el-input> -->
         <el-input
-          v-model="queryInfo.phone"
+          v-model="queryInfo.mailing_phone"
           style="width: 200px"
           placeholder="请输入寄件人手机号"
           clearable
@@ -66,7 +66,9 @@
               <span v-else>{{ props.row.logistics_way_number }}</span>
             </el-form-item>
             <el-form-item label="预计到达时间">
-              <span v-if="props.row.shipping_time === null">暂未生成</span>
+              <span v-if="props.row.shipping_time === 'Invalid date'"
+                >暂未生成</span
+              >
               <span v-else>{{ props.row.shipping_time }}</span>
             </el-form-item>
             <el-form-item label="寄件人信息">
@@ -147,7 +149,7 @@
         min-width="170"
       >
         <template v-slot="props"
-          ><span v-if="props.row.shipping_time === null">未知</span>
+          ><span v-if="props.row.shipping_time === 'Invalid date'">未知</span>
           <span v-else>{{ props.row.shipping_time }}</span></template
         >
       </el-table-column>

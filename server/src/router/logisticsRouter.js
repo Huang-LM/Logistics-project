@@ -1,5 +1,5 @@
 const Router = require('koa-router')
-const { sendLogi, getLogi, getState, getListLogi, updateLogi, deleteLogi, allState, findState } = require('../controller/logisticsController')
+const { sendLogi, getLogi, getState, getListLogi, updateLogi, deleteLogi, allState, findState, addState } = require('../controller/logisticsController')
 
 const { auth } = require('../middleware/authMiddleWare')
 const router = new Router({ prefix: '/logisticsInfo' })
@@ -24,6 +24,9 @@ router.post('/delete', auth, deleteLogi)
 
 // 获取所有物流状态
 router.get('/allState', auth, allState)
+
+// 获取所有物流状态
+router.post('/addState', auth, addState)
 
 
 module.exports = router

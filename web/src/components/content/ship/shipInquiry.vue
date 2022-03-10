@@ -53,7 +53,9 @@
               <span v-else>{{ props.row.logistics_way_number }}</span>
             </el-form-item>
             <el-form-item label="预计到达时间">
-              <span v-if="props.row.shipping_time === null">暂未生成</span>
+              <span v-if="props.row.shipping_time === 'Invalid date'"
+                >暂未生成</span
+              >
               <span v-else>{{ props.row.shipping_time }}</span>
             </el-form-item>
             <el-form-item label="寄件人信息">
@@ -119,7 +121,7 @@
       :close="dialogClose"
       width="40%"
     >
-      <el-timeline>
+      <el-timeline v-if="state">
         <el-timeline-item
           v-for="(state, index) in state"
           :key="index"
@@ -134,6 +136,7 @@
           </el-card>
         </el-timeline-item>
       </el-timeline>
+      <div class="noState" v-else>还没有消息</div>
     </el-dialog>
   </div>
 </template>
@@ -223,12 +226,10 @@ export default {
     },
     //跳转至查看页面
     handleEdit(index, row) {
-      service
-        .post("/logisticsInfo/state", { id: row.logistics_number })
-        .then(res => {
-          this.state = res.data;
-          // console.log(res.data);
-        });
+      service.post("/logisticsInfo/state", { id: row.id }).then(res => {
+        this.state = res.data.data;
+        // console.log(res.data);
+      });
       this.dialogFormVisible = true;
     },
     // 对话框关闭

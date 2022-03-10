@@ -63,7 +63,7 @@
       </el-table-column>
       <el-table-column prop="phone" label="手机号" width="130">
       </el-table-column>
-      <el-table-column prop="role" label="角色" width="180">
+      <el-table-column prop="role" label="角色">
         <template v-slot="scope">
           <el-select
             v-model="scope.row.role"
@@ -75,7 +75,7 @@
               v-for="item in options"
               :key="item.id"
               :label="item.name"
-              :value="item.name"
+              :value="item.id"
             >
             </el-option>
           </el-select>
@@ -179,7 +179,7 @@ export default {
       service
         .post("/user/list", this.queryInfo)
         .then(res => {
-          // console.log(res);
+          // console.log(this.queryInfo);
           const resData = res.data;
           // console.log(resData.records);
           this.userList = resData.list;
@@ -206,6 +206,14 @@ export default {
     // 查找用户
     selectUserList() {
       // console.log(this.queryInfo);
+      if (
+        this.queryInfo.phone ||
+        this.queryInfo.id ||
+        this.queryInfo.username ||
+        this.queryInfo.role
+      ) {
+        this.queryInfo.page = 0;
+      }
       service
         .post("/user/select", this.queryInfo)
         .then(res => {
@@ -230,7 +238,7 @@ export default {
           // console.log("res");
 
           if (res.data.code === 1) {
-            this.$alert(res.data.message + "已修改为：" + new_role, {
+            this.$alert("用户角色更新成功", {
               confirmButtonText: "确定"
             });
             this.userId = this.$store.state.account.userID;

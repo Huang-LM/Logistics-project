@@ -13,7 +13,7 @@
           @clear="getGoodsList"
         ></el-input> -->
         <el-input
-          v-model="queryInfo.phone"
+          v-model="queryInfo.mailing_phone"
           style="width: 200px"
           placeholder="请输入寄件人手机号"
           clearable
@@ -66,7 +66,9 @@
               <span v-else>{{ props.row.logistics_way_number }}</span>
             </el-form-item>
             <el-form-item label="预计到达时间">
-              <span v-if="props.row.shipping_time === null">暂未生成</span>
+              <span v-if="props.row.shipping_time === 'Invalid date'"
+                >暂未生成</span
+              >
               <span v-else>{{ props.row.shipping_time }}</span>
             </el-form-item>
             <el-form-item label="寄件人信息">
@@ -129,7 +131,7 @@
         min-width="170px"
       >
         <template v-slot="props"
-          ><span v-if="props.row.shipping_time === null">未知</span>
+          ><span v-if="props.row.shipping_time === 'Invalid date'">未知</span>
           <span v-else>{{ props.row.shipping_time }}</span></template
         >
       </el-table-column>
@@ -337,31 +339,20 @@ export default {
         });
     },
     selectGoodsList() {
-      service
-        .post("/logisticsInfo/getLogistics", {
-          user_id: null,
-          logistics_number: this.queryInfo.logistics_number
-        })
-        .then(res => {
-          this.logisticsData = [];
-
-          if (res.data.data.length !== 0) {
-            this.logisticsData.push(res.data.data);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          this.$message.error("网络错误！");
-        });
+      service.post("/logisticsInfo/listLogistics", this.queryInfo).then(res => {
+        const resData = res.data.data;
+        // console.log(resData.records);
+        this.logisticsData = resData.list;
+        this.total = resData.total;
+      });
     },
     //跳转至编辑用户
     handleEdit(index, row) {
-      this.newState.logistics_id = row.logistics_id;
-      service
-        .post("/logisticsInfo/state", { id: row.logistics_id })
-        .then(res => {
-          this.state = res.data;
-        });
+      // console.log(row);
+      this.newState.logistics_id = row.id;
+      service.post("/logisticsInfo/state", { id: row.id }).then(res => {
+        this.state = res.data.data;
+      });
       this.dialogFormVisible = true;
     },
     handleEditTime(index, row) {
@@ -448,7 +439,7 @@ export default {
                 id: this.newState.logistics_id
               })
               .then(res => {
-                this.state = res.data;
+                this.state = res.data.data;
               });
           }
         })

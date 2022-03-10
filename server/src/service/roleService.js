@@ -88,10 +88,10 @@ class RoleService {
   // 更新用户角色
   async updateRole(id, role) {
     try {
-      const res1 = await Role.findOne({ attributes: ['id'], where: { name: role } })
+      // const res1 = await Role.findOne({ attributes: ['id'], where: { name: role } })
 
-      const roleId = res1.dataValues.id
-      const res = await UserRole.update({ roles_id: roleId },
+      // const roleId = res1.dataValues.id
+      const res = await UserRole.update({ roles_id: role },
         { where: { user_id: id } }
       )
       return res[0] > 0 ? true : false
