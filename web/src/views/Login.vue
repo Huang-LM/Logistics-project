@@ -72,7 +72,7 @@
                       </el-form-item>
                     </el-form></el-tab-pane
                   >
-                  <el-tab-pane label="货主注册" name="register">
+                  <el-tab-pane label="货代公司注册" name="register">
                     <user-form></user-form>
                   </el-tab-pane>
                 </el-tabs>
@@ -269,7 +269,8 @@ export default {
   z-index: -1;
   /* background-image: linear-gradient(50deg, #a1c4fd 0%, #c2e9fb 100%); */
   /* background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%); */
-  background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+  /* background-image: linear-gradient(to top, #dfe9f3 0%, white 100%); */
+  background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
 }
 /* .login-main {
   background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);

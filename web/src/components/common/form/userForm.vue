@@ -128,7 +128,7 @@ export default {
         code: "",
         gender: "",
         email: "",
-        role: "货主",
+        role: "货代公司",
         createTime: ""
       },
 

@@ -3,7 +3,7 @@
     <!-- 搜索 -->
     <el-form :model="queryInfo" ref="queryInfo">
       <el-form-item>
-        <el-input
+        <!-- <el-input
           v-model="queryInfo.id"
           style="width: 80px"
           auto-complete="new-password"
@@ -11,7 +11,7 @@
           clearable
           class="search-input"
           @clear="getUserList"
-        ></el-input>
+        ></el-input> -->
         <el-input
           v-model="queryInfo.username"
           style="width: 180px"
@@ -65,8 +65,8 @@
     </el-form>
     <!-- 搜索结果 -->
     <el-table :data="userList" style="width: 100%;" stripe>
-      <el-table-column prop="id" label="ID" sortable width="70">
-      </el-table-column>
+      <!-- <el-table-column prop="id" label="ID" sortable width="70">
+      </el-table-column> -->
       <el-table-column prop="username" label="用户名" width="100">
       </el-table-column>
       <el-table-column prop="phone" label="手机号" width="130">
@@ -77,6 +77,7 @@
           <p v-else>男</p>
         </template>
       </el-table-column>
+      <el-table-column prop="email" label="邮箱" width="130"> </el-table-column>
       <el-table-column prop="role" label="角色" width="100"> </el-table-column>
       <el-table-column label="审核" width="80">
         <template v-slot="scope">

@@ -1,8 +1,8 @@
 <template>
   <div class="settingUser">
     <el-row :gutter="20">
-      <el-col :span="4"><div class="grid-content"></div></el-col>
-      <el-col :span="16"
+      <el-col :span="2"><div class="grid-content"></div></el-col>
+      <el-col :span="8"
         ><el-form
           :model="updateUserForm"
           :rules="rules"
@@ -40,7 +40,7 @@
           </el-form-item>
         </el-form>
       </el-col>
-      <el-col :span="4"><div class="grid-content"></div></el-col>
+      <el-col :span="14"><div class="grid-content"></div></el-col>
     </el-row>
 
     <!-- 重置密码对话框 -->
@@ -231,6 +231,9 @@ export default {
 };
 </script>
 <style scoped>
+.settingUser {
+  padding-top: 50px;
+}
 .grid-content {
   width: 1px;
   height: 1px;

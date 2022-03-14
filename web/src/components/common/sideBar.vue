@@ -2,9 +2,9 @@
   <div class="sidebar">
     <div class="sidebar-main">
       <!-- 头像框 -->
-      <div class="sidebar-avatar">
+      <!-- <div class="sidebar-avatar">
         <el-avatar :size="80" :src="circleUrl"></el-avatar>
-      </div>
+      </div> -->
       <div>
         <div class="sidebar-name">
           {{ this.userName }}

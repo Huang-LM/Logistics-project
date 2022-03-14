@@ -15,7 +15,7 @@
         <el-input
           v-model="queryInfo.mailing_phone"
           style="width: 200px"
-          placeholder="请输入寄件人手机号"
+          placeholder="请输入寄件手机号"
           clearable
           class="search-input"
           @clear="getGoodsList"
@@ -71,9 +71,9 @@
               >
               <span v-else>{{ props.row.shipping_time }}</span>
             </el-form-item>
-            <el-form-item label="寄件人信息">
+            <el-form-item label="货代公司信息">
               <span
-                >姓名：{{ props.row.mailing_name }} ， 手机号：
+                >货代公司名称：{{ props.row.mailing_name }} ， 手机号：
                 {{ props.row.mailing_phone }} ， 地址：
                 {{ props.row.mailing_address }}</span
               >

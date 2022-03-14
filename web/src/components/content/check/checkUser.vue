@@ -57,8 +57,8 @@
     </el-form>
     <!-- 搜索结果 -->
     <el-table :data="userList" style="width: 100%;" stripe>
-      <el-table-column prop="id" label="ID" sortable width="70">
-      </el-table-column>
+      <!-- <el-table-column prop="id" label="ID" sortable width="70">
+      </el-table-column> -->
       <el-table-column prop="username" label="用户名" width="100">
       </el-table-column>
       <el-table-column prop="phone" label="手机号" width="130">

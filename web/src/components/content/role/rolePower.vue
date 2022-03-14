@@ -9,12 +9,12 @@
     </el-button>
     <!-- 角色列表 -->
     <el-table :data="roleList" style="width: 100%;" stripe>
-      <el-table-column
+      <!-- <el-table-column
         prop="id"
         label="ID"
         sortable
         width="70"
-      ></el-table-column>
+      ></el-table-column> -->
       <el-table-column prop="name" label="角色" width="120"> </el-table-column>
       <el-table-column prop="note" label="简介" width="200"> </el-table-column>
       <el-table-column

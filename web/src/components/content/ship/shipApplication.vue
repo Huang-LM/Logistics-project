@@ -2,7 +2,7 @@
   <div class="shipApplication">
     <div style="height: 45vh;" class="apply-step">
       <el-steps direction="vertical" :active="active">
-        <el-step title="寄件人"></el-step>
+        <el-step title="货代公司"></el-step>
         <el-step title="收件人"></el-step>
         <el-step title="货物"></el-step>
       </el-steps>
@@ -14,25 +14,25 @@
       label-width="100px"
       :inline="true"
     >
-      <el-divider content-position="left">寄件人信息</el-divider>
+      <el-divider content-position="left">货代公司</el-divider>
       <el-form-item label="用户名" prop="mailing_name">
         <el-input
           v-model="shipSubmitForm.mailing_name"
           auto-complete="new-password"
-          placeholder="请输入寄件人用户名"
+          placeholder="请输入货代公司名"
         >
         </el-input>
       </el-form-item>
       <el-form-item label="手机号" prop="mailing_phone">
         <el-input
           v-model="shipSubmitForm.mailing_phone"
-          placeholder="请输入寄件人手机号"
+          placeholder="请输入货代公司联系方式"
         ></el-input>
       </el-form-item>
       <el-form-item label="地址" prop="mailing_address">
         <el-input
           v-model="shipSubmitForm.mailing_address"
-          placeholder="请输入寄件人地址"
+          placeholder="请输入货代公司地址"
           style="width: 50vw"
           @change="setp1(shipSubmitForm.mailing_address)"
         >
@@ -77,7 +77,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="运输方式" prop="logistics_way">
+      <el-form-item label="运输船只" prop="logistics_way">
         <el-select
           v-model="shipSubmitForm.logistics_way"
           placeholder="请选择"
@@ -303,7 +303,7 @@ export default {
     },
     getWay() {
       service
-        .post("/dictionaries/find", { name: "运输方式" })
+        .post("/dictionaries/find", { name: "运输船只" })
         .then(res => {
           // console.log(res);
           this.ways = res.data.data;
