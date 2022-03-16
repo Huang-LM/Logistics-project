@@ -28,7 +28,6 @@
           :key="item.id"
         >
           <template slot="title">
-            <!-- <i class="el-icon-user"></i> -->
             <i :class="'el-icon-' + item.icon"></i>
             <span>{{ item.name }}</span>
           </template>

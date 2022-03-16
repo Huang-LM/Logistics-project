@@ -20,6 +20,9 @@ const goodsStatistics = () =>
 const dictionaryManager = () =>
   import("@/components/content/dictionary/dictionaryManager");
 const findPassword = () => import("@/components/common/findPassword");
+const announceShow = () =>
+  import("@/components/common/announcement/announceShow");
+const boatTrip = () => import("@/components/content/shipOwner/boatTrip");
 
 Vue.use(VueRouter);
 
@@ -116,6 +119,19 @@ const routes = [
         name: "recordedInfo",
         meta: { index: 2 },
         component: recordedInfo
+      },
+      // 船主
+      {
+        path: "/announceShow",
+        name: "announceShow",
+        meta: { index: 2 },
+        component: announceShow
+      },
+      {
+        path: "/boatTrip",
+        name: "boatTrip",
+        meta: { index: 2 },
+        component: boatTrip
       },
       // 通用
       {
