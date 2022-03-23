@@ -7,13 +7,13 @@ const router = new Router({ prefix: '/logisticsInfo' })
 // 申请寄件
 router.post('/send', auth, sendLogi)
 
-// 通过userid或物流编号查询信息
+// 通过userid或物流编号或者运输船只查询信息
 router.post('/getLogistics', auth, getLogi)
 
 // 获取物流状态
 router.post('/state', auth, getState)
 
-// 获取所有物流信息
+// 条件获取所有物流信息
 router.post('/listLogistics', auth, getListLogi)
 
 // 寄件审核
@@ -25,7 +25,7 @@ router.post('/delete', auth, deleteLogi)
 // 获取所有物流状态
 router.get('/allState', auth, allState)
 
-// 获取所有物流状态
+// 更新物流状态
 router.post('/addState', auth, addState)
 
 

@@ -119,13 +119,14 @@ class LogisticsService {
   }
 
 
-  async findListLogi(mailing_phone, logistics_number, page, pageSize) {
+  async findListLogi(mailing_phone, logistics_number, logistics_way_number, page, pageSize) {
     try {
 
       const whereOpt = {}
 
       mailing_phone && Object.assign(whereOpt, { mailing_phone })
       logistics_number && Object.assign(whereOpt, { logistics_number })
+      logistics_way_number && Object.assign(whereOpt, { logistics_way_number })
 
       const offset = page * pageSize
 

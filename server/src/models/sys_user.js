@@ -61,6 +61,15 @@ const attributes = {
     comment: "邮箱地址",
     field: "email"
   },
+  boat: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
+    defaultValue: null,
+    primaryKey: false,
+    autoIncrement: false,
+    comment: "船主的船",
+    field: "boat"
+  },
   verify: {
     type: DataTypes.INTEGER(1).UNSIGNED.ZEROFILL,
     allowNull: false,

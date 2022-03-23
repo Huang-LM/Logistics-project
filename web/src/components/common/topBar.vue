@@ -1,18 +1,20 @@
 <template>
   <div class="topBar">
     <el-row class="topBar-nav">
-      <el-col :span="22">
+      <el-col :span="18">
         <div class="bar">码头船只出行系统</div>
       </el-col>
+      <el-col :span="4">
+        <!-- 当前天气 -->
+        <weather-simple class="weatherSimple"></weather-simple>
+      </el-col>
+      <!-- <el-col :span="1"> </el-col> -->
       <!-- <el-col :span="2">
         <el-link type="info" :underline="false" @click="setting"
           ><i class="el-icon-s-custom"></i>用户设置</el-link
         >
       </el-col> -->
       <el-col :span="2">
-        <!-- <el-link type="info" :underline="false" @click="logout"
-          ><i class="el-icon-right"></i>退出登录</el-link
-        > -->
         <el-button
           type="info"
           @click="logout"
@@ -27,8 +29,10 @@
 </template>
 
 <script>
+import weatherSimple from "./weather/weatherSimple.vue";
 // import service from "@/utils/request";
 export default {
+  components: { weatherSimple },
   name: "topBar",
 
   data() {
@@ -68,8 +72,14 @@ export default {
 .topBar-nav {
   margin-top: 20px;
 }
+.weatherSimple {
+  position: fixed;
+  width: 100px;
+  top: 10px;
+}
 .logout-btn {
   position: absolute;
+  right: 60px;
   bottom: 10%;
 }
 </style>

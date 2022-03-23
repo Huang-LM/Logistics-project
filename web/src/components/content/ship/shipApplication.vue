@@ -27,7 +27,8 @@
         <el-input
           v-model="shipSubmitForm.mailing_phone"
           placeholder="请输入货代公司联系方式"
-        ></el-input>
+        >
+        </el-input>
       </el-form-item>
       <el-form-item label="地址" prop="mailing_address">
         <el-input
@@ -36,6 +37,20 @@
           style="width: 50vw"
           @change="setp1(shipSubmitForm.mailing_address)"
         >
+          <el-select
+            v-model="selectMail"
+            slot="prepend"
+            placeholder="请选择"
+            style="width:100px"
+          >
+            <el-option
+              v-for="item in mailOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.name"
+            >
+            </el-option>
+          </el-select>
         </el-input>
       </el-form-item>
       <el-divider content-position="left">收件人信息</el-divider>
@@ -59,7 +74,22 @@
           placeholder="请输入收件人地址"
           style="width: 50vw"
           @change="setp1(shipSubmitForm.shipping_address)"
-        ></el-input>
+        >
+          <el-select
+            v-model="selectShip"
+            slot="prepend"
+            placeholder="请选择"
+            style="width:100px"
+          >
+            <el-option
+              v-for="item in shipOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.name"
+            >
+            </el-option>
+          </el-select>
+        </el-input>
       </el-form-item>
       <el-divider content-position="left">货物信息</el-divider>
       <el-form-item label="货物类型" prop="mailing_type">
@@ -210,16 +240,12 @@ export default {
         {
           value: "2",
           label: "海运"
-        },
-        {
-          value: "3",
-          label: "火箭运"
-        },
-        {
-          value: "4",
-          label: "太空运"
         }
-      ]
+      ],
+      shipOptions: [],
+      mailOptions: [],
+      selectShip: "",
+      selectMail: ""
     };
   },
 
@@ -228,6 +254,10 @@ export default {
     submitForm(formName) {
       this.getTime();
       this.shipSubmitForm.user_id = this.$store.state.account.userID;
+      this.shipSubmitForm.shipping_address =
+        this.selectShip + this.shipSubmitForm.shipping_address;
+      this.shipSubmitForm.mailing_address =
+        this.selectMail + this.shipSubmitForm.mailing_address;
       this.$refs[formName].validate(valid => {
         if (valid) {
           service
@@ -296,6 +326,24 @@ export default {
         .then(res => {
           // console.log(res);
           this.options = res.data.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      service
+        .post("/dictionaries/find", { name: "到达港口" })
+        .then(res => {
+          // console.log(res);
+          this.shipOptions = res.data.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      service
+        .post("/dictionaries/find", { name: "出发港口" })
+        .then(res => {
+          // console.log(res);
+          this.mailOptions = res.data.data;
         })
         .catch(err => {
           console.log(err);

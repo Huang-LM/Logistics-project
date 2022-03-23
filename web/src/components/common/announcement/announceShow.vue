@@ -1,56 +1,80 @@
 <template>
-  <div class="boatTrip">
+  <div class="announceShow">
     <!-- 轮播图 -->
+    <el-carousel indicator-position="outside">
+      <el-carousel-item v-for="item in imgList" :key="item.id">
+        <img :src="item.idView" class="image" />
+      </el-carousel-item>
+    </el-carousel>
     <!-- 公告页面 -->
-    <!-- 天气信息 -->
-    <div id="he-plugin-standard"></div>
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span>公告</span>
+        <el-button style="float: right; padding: 3px 0" type="text"
+          >查看更多</el-button
+        >
+      </div>
+      <div v-for="o in 4" :key="o" class="text item">
+        <el-link icon="el-icon-arrow-right">{{ "公告 " + o }}</el-link>
+        <el-divider></el-divider>
+      </div>
+    </el-card>
   </div>
 </template>
 <script>
 // import service from "@/utils/request";
 // import {WIDGET} from "@/assets/js/he-sim"
 export default {
-  name: "boatTrip",
-  created() {
-    //和风天气插件调用
-    window.WIDGET = {
-      CONFIG: {
-        modules: "02",
-        background: "5",
-        tmpColor: "#FFFFFF",
-        tmpSize: "22",
-        aqiColor: "#FFFFFF",
-        aqiSize: "30",
-        weatherIconSize: "90",
-        alertIconSize: "18",
-        padding: "10px 10px 10px 10px",
-        shadow: "0",
-        language: "auto",
-        fixed: "false",
-        vertical: "center",
-        horizontal: "center",
-        key: "bb0bd610ef8e4dd0b28f6920d11d41a8"
-      }
-    };
-    (function(d) {
-      var c = d.createElement("link");
-      c.rel = "stylesheet";
-      c.href = "../static/css/he-simple.css";
-      // c.href = 'https://widget.heweather.net/simple/static/css/he-simple.css?v=1.4.0';
-      var s = d.createElement("script");
-      s.src = "../static/js/he-simple.js";
-      // s.src = 'https://widget.heweather.net/simple/static/js/he-simple.js?v=1.4.0';
-      var sn = d.getElementsByTagName("script")[0];
-      sn.parentNode.insertBefore(c, sn);
-      sn.parentNode.insertBefore(s, sn);
-    })(document);
-  },
+  name: "announceShow",
+  created() {},
 
   data() {
-    return {};
+    return {
+      imgList: [
+        { id: 0, idView: require("../../../../public/static/13.jpg") },
+        { id: 1, idView: require("../../../../public/static/4ky.jpg") },
+        {
+          id: 2,
+          idView: require("../../../../public/static/new_logo_banner.jpg")
+        }
+      ]
+    };
   },
   methods: {}
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 18px;
+  opacity: 0.75;
+  line-height: 300px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
+}
+
+.text {
+  font-size: 16px;
+}
+
+.item {
+  margin-bottom: -10px;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both;
+}
+</style>

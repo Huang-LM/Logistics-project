@@ -114,9 +114,9 @@ class LogisticsController {
 
   async getListLogi(ctx) {
     try {
-      const { mailing_phone, logistics_number, page, pageSize } = ctx.request.body
+      const { mailing_phone, logistics_number, logistics_way_number, page, pageSize } = ctx.request.body
 
-      const res = await findListLogi(mailing_phone, logistics_number, page, pageSize)
+      const res = await findListLogi(mailing_phone, logistics_number, logistics_way_number, page, pageSize)
       if (res) {
         ctx.body = {
           code: 1,
