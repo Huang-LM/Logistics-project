@@ -14,19 +14,28 @@
           >查看更多</el-button
         >
       </div>
-      <div v-for="o in 4" :key="o" class="text item">
-        <el-link icon="el-icon-arrow-right">{{ "公告 " + o }}</el-link>
+      <div v-for="o in announceList" :key="o.id" class="text item">
+        <el-link
+          icon="el-icon-arrow-right"
+          :download="o.announcement_title"
+          target="_blank"
+          :href="'http://localhost:8000/' + o.announcement_body"
+          :underline="false"
+          >{{ o.announcement_title }}</el-link
+        >
         <el-divider></el-divider>
       </div>
     </el-card>
   </div>
 </template>
 <script>
-// import service from "@/utils/request";
+import service from "@/utils/request";
 // import {WIDGET} from "@/assets/js/he-sim"
 export default {
   name: "announceShow",
-  created() {},
+  created() {
+    this.getAnnounceList();
+  },
 
   data() {
     return {
@@ -37,10 +46,26 @@ export default {
           id: 2,
           idView: require("../../../../public/static/new_logo_banner.jpg")
         }
-      ]
+      ],
+      announceList: []
     };
   },
-  methods: {}
+  methods: {
+    //获取公告列表
+    getAnnounceList() {
+      service
+        .get("/user/announceList")
+        .then(res => {
+          const resData = res.data;
+          this.announceList = resData.list;
+          // this.total = resData.total;
+        })
+        .catch(err => {
+          console.log(err);
+          this.$message.error("网络异常");
+        });
+    }
+  }
 };
 </script>
 

@@ -12,10 +12,6 @@ export default {
     return {};
   },
 
-  methods: {},
-
-  components: {},
-
   created() {
     // if (this.city) {
     //   // console.log(this.city);
@@ -60,7 +56,7 @@ export default {
           "key": "1ec52d33c0c94eddac88ab9f695e3426",
         // eslint-disable-next-line prettier/prettier
         "city": this.city
-       }
+      }
       // };
     };
     let script = document.createElement("script");

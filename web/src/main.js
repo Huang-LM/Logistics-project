@@ -13,6 +13,9 @@ Vue.prototype.$echarts = echarts;
 import VueParticles from "vue-particles";
 Vue.use(VueParticles);
 
+import LazyRender from "vue-lazy-render";
+Vue.use(LazyRender);
+
 Vue.config.productionTip = false;
 
 new Vue({

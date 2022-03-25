@@ -1,6 +1,6 @@
 const Router = require('koa-router')
 // 前缀统一为users
-const { register, login, updatapw, getMenu, getList, mailCode, checkCode, findPassword, getUser, updateUser, deleteUser, add, examineUser } = require('../controller/userController')
+const { register, login, updatapw, getMenu, getList, mailCode, checkCode, findPassword, getUser, updateUser, deleteUser, add, examineUser, upload, announceList, addAnnounce } = require('../controller/userController')
 const { auth } = require('../middleware/authMiddleWare')
 const { userValidator, verifyUser, crpytPassword, verifyLogin, verifyPassword, verifyEmail } = require('../middleware/userMiddleWare')
 
@@ -48,5 +48,14 @@ router.post('/get', auth, getUser)
 
 // 审核用户是否可以登录
 router.post('/examine', auth, examineUser)
+
+// 公告上传
+router.post('/upload', upload)
+
+// 公告列表获取
+router.get('/announceList', auth, announceList)
+
+// 发布公告
+router.post('/addAnnounce', auth, addAnnounce)
 
 module.exports = router

@@ -22,6 +22,8 @@ const dictionaryManager = () =>
 const findPassword = () => import("@/components/common/findPassword");
 const announceShow = () =>
   import("@/components/common/announcement/announceShow");
+const announceList = () =>
+  import("@/components/common/announcement/announceList");
 const boatTrip = () => import("@/components/content/shipOwner/boatTrip");
 
 Vue.use(VueRouter);
@@ -92,6 +94,12 @@ const routes = [
         name: "goodsStatistics",
         meta: { index: 2 },
         component: goodsStatistics
+      },
+      {
+        path: "/announceList",
+        name: "announceList",
+        meta: { index: 2 },
+        component: announceList
       },
       // 货主
       {

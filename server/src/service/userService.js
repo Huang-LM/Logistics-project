@@ -6,6 +6,7 @@ const Role = require('../models/sys_role')
 const {
   Op
 } = require('sequelize');
+const Announce = require('../models/sys_announcement')
 
 class UserService {
   // 注册用户
@@ -193,6 +194,15 @@ class UserService {
     return res[0] > 0 ? true : false
   }
 
+  async getAnnounceList() {
+    const res = await Announce.findAll()
+    return res
+  }
+
+  async addAnnounce(announcement_title, announcement_body) {
+    const res = await Announce.create({ announcement_title, announcement_body })
+    return res
+  }
 }
 
 

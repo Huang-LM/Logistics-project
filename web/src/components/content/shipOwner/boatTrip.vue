@@ -7,7 +7,9 @@
           <div slot="header" class="clearfix">
             <span>目的地天气</span>
           </div>
-          <weather-standard :city="city"></weather-standard>
+          <lazy-render :city="city" :time="300" :limit="50">
+            <weather-standard :city="city"></weather-standard>
+          </lazy-render>
         </el-card>
         <el-card class="logistics-card">
           <el-table :data="logisticsData" style="width: 100%;">
@@ -71,7 +73,6 @@
                 </el-form>
               </template>
             </el-table-column>
-
             <el-table-column label="ID" prop="id"> </el-table-column>
             <el-table-column
               label="物流编号"
@@ -81,11 +82,14 @@
             </el-table-column>
             <el-table-column label="物流状态" min-width="120px">
               <template v-slot="props">
-                <el-dropdown v-if="props.row.verify === 0">
-                  <el-button size="mini" split-button type="info">
-                    未审核
-                  </el-button>
-                </el-dropdown>
+                <el-button
+                  size="mini"
+                  split-button
+                  type="info"
+                  v-if="props.row.verify === 0"
+                >
+                  未审核
+                </el-button>
                 <el-button
                   type="success"
                   size="mini"
@@ -114,18 +118,6 @@
               min-width="170"
             >
             </el-table-column>
-            <!-- <el-table-column label="操作" min-width="180" fixed="right">
-          <template slot-scope="scope">
-            <el-button
-              type="primary"
-              plain
-              v-waves
-              size="mini"
-              @click="handleEdit(scope.$index, scope.row)"
-              >安排运输</el-button
-            >
-          </template>
-        </el-table-column> -->
           </el-table>
           <!-- 分页 -->
           <el-pagination
@@ -163,7 +155,7 @@ export default {
 
   data() {
     return {
-      city: "CN101210101",
+      city: "CN101280101",
       date: new Date(),
       logisticsData: [],
       queryInfo: {
@@ -187,12 +179,20 @@ export default {
           const resData = res.data.data;
           // console.log(resData.records);
           this.logisticsData = resData.list;
+          console.log();
+          this.getCity(this.logisticsData[0].shipping_address.substring(0, 3));
           this.total = resData.total;
         })
         .catch(err => {
           console.log(err);
           this.$message.error("网络异常");
         });
+    },
+    getCity(fd) {
+      service.post("/dictionaries/find", { name: fd }).then(res => {
+        this.city = res.data.data[0].name;
+        // console.log(this.city);
+      });
     },
     // 换页
     handleCurrentChange(val) {

@@ -1,6 +1,8 @@
+const path = require('path')
+
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
-const { createUser, getUserInfo, getUserRole, updatePassword, getUserMenu, getUserList, updateFindPassword, getRoleName, updateuser, deleteuser, examine } = require('../service/userService')
+const { createUser, getUserInfo, getUserRole, updatePassword, getUserMenu, getUserList, updateFindPassword, getRoleName, updateuser, deleteuser, examine, getAnnounceList, addAnnounce } = require('../service/userService')
 const { userRegisterError, userLoginError, userNotApproved } = require('../constant/errType')
 const { JWT_SECRET } = process.env
 
@@ -277,6 +279,56 @@ class UserController {
       }
     } catch (error) {
       console.error(error);
+    }
+  }
+
+
+  async announceList(ctx) {
+    const res = await getAnnounceList()
+    // console.log(res);
+    ctx.body = {
+      code: 1,
+      list: res
+    }
+  }
+
+  async addAnnounce(ctx) {
+    const { announcement_title, announcement_body } = ctx.request.body
+    const res = await addAnnounce(announcement_title, announcement_body)
+    if (res) {
+      ctx.body = {
+        code: 1,
+        message: "发布成功！"
+      }
+    } else {
+      ctx.body = {
+        code: 0,
+        message: "发布失败！"
+      }
+    }
+  }
+
+  async upload(ctx) {
+    const { file } = ctx.request.files
+
+    const fileTypes = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+    if (file) {
+      if (!fileTypes.includes(file.type)) {
+        return ctx.body = {
+          code: 0,
+          message: '文件格式不正确'
+        }
+      }
+      ctx.body = {
+        code: 1,
+        message: '商品图片上传成功',
+        data: path.basename(file.path),
+      }
+    } else {
+      return ctx.body = {
+        code: 0,
+        message: '文件上传失败'
+      }
     }
   }
 }
