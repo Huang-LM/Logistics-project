@@ -46,7 +46,7 @@ const verifyUser = async (ctx, next) => {
 // 验证邮箱是否已经存在
 const verifyEmail = async (ctx, next) => {
   const { email } = ctx.request.body
-
+  // console.log(email)
   try {
     const res = await getUserInfo({ email })
 

@@ -163,7 +163,6 @@ router.beforeEach((to, from, next) => {
   if (to.path === "/login") {
     next();
   } else {
-    // console.log(1254153515);
     let token = localStorage.getItem("USER_TOKEN");
 
     if (token === null || token === "") {

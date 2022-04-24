@@ -220,7 +220,7 @@ export default {
         })
         .catch(err => {
           console.log(err);
-          this.$message.error("更新失败，请重试！");
+          this.$message.error("更新失败，请检查旧密码是否正确");
         });
     },
     resetForm(formName) {

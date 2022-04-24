@@ -10,7 +10,7 @@ const router = new Router({ prefix: '/user' })
 router.post('/register', userValidator, verifyUser, crpytPassword, register)
 
 // 管理员的注册接口
-router.post('/add', userValidator, verifyUser, crpytPassword, add)
+router.post('/add', userValidator, verifyUser, verifyEmail, crpytPassword, add)
 
 // 注册邮箱验证码
 router.post('/code', verifyEmail, mailCode)

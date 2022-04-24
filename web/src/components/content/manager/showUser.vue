@@ -186,30 +186,8 @@
           ></el-input>
         </el-form-item>
         <el-form-item prop="email" label="邮箱">
-          <el-tooltip
-            class="item"
-            effect="dark"
-            content="获取验证码后等待1分钟可重新获取"
-            placement="top-start"
-          >
-            <el-input v-model="addUserForm.email" placeholder="请输入邮箱">
-              <el-button
-                type="primary"
-                slot="append"
-                class="email-btn"
-                :disabled="btnDisabled"
-                @click="getEmail()"
-                style="width: 120px"
-                >获取验证码</el-button
-              >
-            </el-input>
-          </el-tooltip>
-        </el-form-item>
-        <el-form-item prop="code" label="验证码">
-          <el-input
-            v-model="addUserForm.code"
-            placeholder="请输入验证码"
-          ></el-input>
+          <el-input v-model="addUserForm.email" placeholder="请输入邮箱">
+          </el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input
@@ -389,6 +367,7 @@ export default {
         ],
         gender: [{ required: true, message: "请选择性别", trigger: "blur" }],
         phone: [{ required: true, message: "请输入手机号", trigger: "blur" }],
+        email: [{ required: true, message: "请输入邮箱", trigger: "blur" }],
         role: [{ required: true, message: "请选择角色", trigger: "blur" }]
       },
       options: [
@@ -439,24 +418,6 @@ export default {
         .catch(err => {
           console.log(err);
           this.$message.error("网络异常");
-        });
-    },
-    // 申请验证码
-    getEmail() {
-      service
-        .post("/user/code", { emailNo: this.addUserForm.email })
-        .then(res => {
-          // console.log(res);
-          if (res.data.code === 1) {
-            this.$message.success(res.data.message);
-            this.btnDisabled = true;
-          } else {
-            this.$message.error(res.data.message);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          this.$message.error(err.data.message);
         });
     },
     // 查找用户
@@ -595,7 +556,9 @@ export default {
             })
             .catch(err => {
               console.log(err);
-              this.$message.error("添加失败，请重试！");
+              this.$message.error(
+                err.response.data.data.message + "，请重试！"
+              );
             });
         } else {
           this.$message.error("添加失败，请重试！");

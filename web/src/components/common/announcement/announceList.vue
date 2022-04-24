@@ -254,7 +254,7 @@ export default {
                 this.getAnnounceList();
               } else if (res.data.code === 0) {
                 this.$message({
-                  message: "用户名已存在",
+                  message: res.data.message,
                   type: "warning"
                 });
               } else {

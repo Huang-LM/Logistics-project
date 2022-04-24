@@ -52,7 +52,7 @@
 
     <!-- 新增用户对话框 -->
     <el-dialog
-      title="新增用户"
+      title="新增角色"
       class="update-dialog"
       :visible.sync="dialogFormVisible"
       :append-to-body="true"

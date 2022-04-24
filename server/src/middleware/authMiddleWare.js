@@ -5,7 +5,6 @@ const { JWT_SECRET } = process.env
 const { tokenExpiredError, invalidToken } = require('../constant/errType')
 
 const auth = async (ctx, next) => {
-  // console.log(ctx.request.header.token);
   let authorization = 0;
   if (ctx.request.header.token) {
     authorization = ctx.request.header.token
@@ -13,7 +12,6 @@ const auth = async (ctx, next) => {
     authorization = ctx.request.header.authorization
   }
 
-  // console.log(authorization)
   const token = authorization.replace('Bearer ', '')
 
   try {

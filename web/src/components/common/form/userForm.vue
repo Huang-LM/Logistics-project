@@ -199,7 +199,7 @@ export default {
       service
         .post("/user/code", { email: this.addUserForm.email })
         .then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.data.code === 1) {
             this.$message.success(res.data.message);
             this.btnDisabled = true;
@@ -209,8 +209,9 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
-          this.$message.error(err.data.message);
+          // console.log(err.response);
+          this.$message.error(err.response.data.data.message + "，请重新输入");
+          this.loading = false;
         });
       setTimeout((this.btnDisabled = false), 60000);
       // this.btnDisabled = true;
